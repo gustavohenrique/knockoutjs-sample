@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Knockout : Test</title>
+<link rel="Stylesheet" type="text/css" href="style.css"></style>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jeditable.js"></script>
+<script type="text/javascript" src="knockout.js"></script>
+<script type="text/javascript" src="jquery.json-2.3.min.js"></script>
+
+<script type="text/javascript" src="koeditable/namespace.js"></script>
+<script type="text/javascript" src="koeditable/models.js"></script>
+<script type="text/javascript" src="koeditable/editable.js"></script>
+<script type="text/javascript" src="koeditable/checker.js"></script>
+<script type="text/javascript" src="koeditable/start.js"></script>
+
+<script type="text/javascript">
+$(function() {
+    ko.editable.configure({
+        pageSize: 1,
+        crud: {
+            load: '',
+            save: '',
+            remove: ''
+        },
+        extra: {
+            categories: 'http://'
+        }
+    });
+});
+ko.editable.createBinding();
+ko.checker.createBinding();
+</script>
+
+</head>
+
+<body>
+
+<form id="frm" data-bind="submit: save">
+    <p>There are <span data-bind='text: list().length'>&nbsp;</span> transaction(s)</p>
+    <table cellspacing="0" cellpadding="0" border="0" data-bind='visible: dataList().length > 0'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th width="100">Date</th>
+                <th width="250">Description</th>
+                <th width="90">Amount</th>
+                <th width="110">Category</th>
+                <th />
+            </tr>
+        </thead>
+        <tbody data-bind='foreach: dataList()'>
+            <tr>
+                <td data-bind='checker: id'></td>
+                <td data-bind='editable: { attribute: date }'></td>
+                <td data-bind='editable: { attribute: desc }'></td>
+                <td data-bind='editable: { attribute: amount }'></td>
+                <td data-bind='editable: { attribute: category, widget: "select", data: $parent.categories, key: "id", value: "name" }'></td>
+                <td><a href='#' data-bind='click: $root.remove'>Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <a href="#" data-bind="click: first, visible: pageIndex() > 0">First</a>
+        <a href="#" data-bind="click: previous, visible: pageIndex() > 0">Previous</a>
+        <a href="#" data-bind="click: next, visible: pageIndex() < maxPageIndex()">Next</a>
+        <a href="#" data-bind="click: last, visible: pageIndex() < maxPageIndex()">Last</a>
+    </div>
+ 
+    <button data-bind='click: add'>Add Transaction</button>
+    <button data-bind='enable: dataList().length > 0, click: save' type='submit'>Save Modified</button>
+    <button data-bind='enable: dataList().length > 0, click: sendTo.bind($data, "http://mydomain.com/service/")'>Send Selected</button>
+</form>
+
+<ul data-bind='foreach: list'>
+    <li><input type="text" data-bind='value: desc'><span data-bind='text: desc'></span> - <span data-bind='text: category().name'></span></li>
+</ul>
+
+
+</body>
+</html>

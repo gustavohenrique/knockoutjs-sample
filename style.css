@@ -1,0 +1,33 @@
+body {
+  font-family: Arial;
+}
+
+table {
+  border: 1px solid gray;
+  margin: 5px;
+}
+
+th, td {
+  border: 1px solid silver;
+  padding: 0px;
+  margin: 0px;
+  font-size: 12pt;
+}
+
+.editable > input {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  font-size: 12pt;
+  height: 20px;
+  float: left;
+}
+
+.editable > button {
+  width: 19%;
+  float: right;
+}
+
+tr.selected {
+  background-color: #efefef;
+}
